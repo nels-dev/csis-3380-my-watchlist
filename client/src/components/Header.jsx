@@ -24,7 +24,6 @@ const Header = () => {
     const logout = () => {
         authContext.login(null)
     }
-    console.log(authContext.authenticated)
     return (<header>
         <Grid
             container
@@ -79,7 +78,7 @@ const Header = () => {
 
         </Grid>
 
-        <Divider />
+        
         <Box sx={{ height: '35vh', width: '100%' }}>
             <Grid
                 sx={{ height: '100%', backgroundImage: `url(${hero})`, backgroundSize: 'cover', backgroundPosition: '0% 70%', backgroundColor: 'rgba(0,0,0,.5)', backgroundBlendMode: 'darken' }}
@@ -90,9 +89,11 @@ const Header = () => {
             >
                 <Grid item md></Grid>
                 <Grid>
-                    <Typography variant="h5" color='white' fontWeight={700} textTransform='uppercase'>
-                        Meet our heros behind the scene
-                    </Typography>
+                    <Box sx={{p: 15, border: '10px solid white' }}>
+                        <Typography variant="h5" color='white' fontWeight={700} textTransform='uppercase'>
+                            Meet our heros behind the scene
+                        </Typography>
+                    </Box>
                 </Grid>
                 <Grid item md></Grid>
             </Grid>
