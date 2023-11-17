@@ -18,7 +18,7 @@ router.get("/:row", async(req, res)=>{
     // const crews = db.collection('crew');
     const row = parseInt(req.params.row, 10)
 
-    const crew = await Crew.find({}).limit(row).exec();
+    const crew = await Crew.find({}).sort({popularity: -1}).limit(row).exec();
 
     console.log(crew)
     

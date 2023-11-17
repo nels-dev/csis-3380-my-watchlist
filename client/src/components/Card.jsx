@@ -51,7 +51,7 @@ const Card = () => {
                                 Known For: {each.known_for_department}
                             </Typography>
                             <Typography variant="body1" color="text.secondary" style={{ display: 'flex', alignItems: 'center' }}>
-                                Popularity: <Rating name="half-rating-read" defaultValue={each.popularity / 20} precision={0.5} style={{ margin: '0 4px' }} readOnly /> {Math.floor(each.popularity)} / 100
+                                Popularity: <Rating name="half-rating-read" defaultValue={each.popularity / 30} precision={0.5} style={{ margin: '0 4px' }} readOnly /> {Math.floor(each.popularity)} / 150
                             </Typography>
                             <Typography variant="body1" color="text.secondary">
                                 Movies: {each.movies.map(movie => (
