@@ -7,9 +7,7 @@ import {MongoClient} from "mongodb"
 const router = express.Router();
 
 
-// dotenv.config();
-// const mongoUri = "mongodb+srv://film-crew-app-user:FFc0NRdiZ13NWn6q@main.vee5elr.mongodb.net/main?retryWrites=true&w=majority";
-// const client = new MongoClient(mongoUri, { useNewUrlParser: true, useUnifiedTopology: true });
+
 
 router.get("/:row", async(req, res)=>{
     // const {name} = req.body;
