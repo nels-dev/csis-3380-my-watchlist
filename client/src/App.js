@@ -3,6 +3,9 @@ import Header from './components/Header';
 import Container from '@mui/material/Container'
 import axios from 'axios';
 import AuthProvider from './context/auth.provider';
+import Search from './components/Search';
+import Card from './components/Card';
+import Footer from './components/Footer';
 
 axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL
 
@@ -11,6 +14,9 @@ function App() {
     <AuthProvider>
       <Container maxWidth="xl">
         <Header/>
+        <Search />
+        <Card />
+        <Footer />
       </Container>
     </AuthProvider>
   );
