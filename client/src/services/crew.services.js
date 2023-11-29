@@ -1,3 +1,2 @@
 import axios from "axios"
-export const crew = (id) => axios.get(`/api/crews/${id}`)
-export const crewAll = () => axios.get(`/api/crews`)
+export const fetchDeptCrew = (name) => axios.get(`/api/crews/dept/${name}`)

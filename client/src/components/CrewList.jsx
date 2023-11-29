@@ -2,16 +2,18 @@
 import Grid from '@mui/material/Grid'
 import { Chip, Typography, CardActionArea, CardContent, CardMedia, Card } from "@mui/material"
 import { useState, useEffect } from 'react';
-import { crew, crewAll } from "../services/crew.services"
+import { fetchDeptCrew } from "../services/crew.services"
 import logo from "../assets/logo.png"
 import Rating from '@mui/material/Rating';
 
 
 
-const CrewList = () => {
+const CrewList = (props) => {
 
-    const [state, setState] = useState([]);
+    const [data, setData] = useState([]);
     const imgURL = "https://image.tmdb.org/t/p/w200/";
+
+
 
     useEffect(() => {
 
@@ -21,9 +23,9 @@ const CrewList = () => {
         //     setState(data)
         // });
 
-        crewAll().then(({ data }) => {
+        fetchDeptCrew(props.dept).then(({ data }) => {
             console.log(data)
-            setState(data)
+            setData(data)
         });
 
     }, [])
@@ -31,9 +33,7 @@ const CrewList = () => {
     return (<Grid container spacing={2}>
 
 
-
-
-        {state.map(each => (
+        {data.map(each => (
             <Grid item md={4}>
                 <Card variant='outlined'>
 
@@ -49,10 +49,10 @@ const CrewList = () => {
                             </Grid>
                             <Grid item xs={8}>
                                 <CardContent>
-                                    <Typography component="div" variant="h5" fontWeight={700} textTransform='uppercase'>
+                                    <Typography component="div" variant="h5" fontWeight={700} textTransform='uppercase' >
                                         {each.name}
                                     </Typography>
-                                    <Typography variant="subtitle2" color="text.secondary" component="div">
+                                    <Typography variant="subtitle1" color="text.secondary" component="div">
                                         {each.department}
                                     </Typography> <br />
                                     <Typography variant="body1" color="text.secondary">
@@ -62,7 +62,9 @@ const CrewList = () => {
                                         Known For: {each.known_for_department}
                                     </Typography>
                                     <Typography variant="body1" color="text.secondary" style={{ display: 'flex', alignItems: 'center' }}>
-                                        Popularity: <Rating name="half-rating-read" defaultValue={each.popularity / 30} precision={0.5} style={{ margin: '0 4px' }} readOnly /> {Math.floor(each.popularity)} / 150
+                                        Popularity:
+                                        <Rating name="half-rating-read" defaultValue={each.popularity / 30} precision={0.5} style={{ margin: '0 4px' }} readOnly />
+                                        {/* {Math.floor(each.popularity)} / 150 */}
                                     </Typography>
 
                                 </CardContent>
