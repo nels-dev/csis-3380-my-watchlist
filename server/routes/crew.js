@@ -18,9 +18,7 @@ router.get("/", async (req, res) => {
     // const crews = db.collection('crew');
 
     const crew = await Crew.find({}).sort({ popularity: -1 }).limit(dataRow).exec();
-
-    console.log(crew)
-
+    // console.log(crew);
     return res.status(200).json(crew)
 
 });
@@ -44,25 +42,64 @@ router.get("/depts", async (req, res) => {
 });
 
 // list dept by name
-router.get("/dept/:name", async (req, res) => {
+// router.get("/dept/:name", async (req, res) => {
 
-    const deptName = req.params.name;
-    if (deptName == "Any") {
-        let crews = await Crew.find({}).sort({ popularity: -1 }).limit(dataRow).exec();
-        return res.status(200).json(crews);
-    } else if (deptName != null) {
-        let crews = await Crew.find({ department: deptName }).sort({ popularity: -1 }).limit(dataRow).exec();
-        Crew.distinct('department').then(deptList => {
-            console.log(deptList)
-        });
+//     const deptName = req.params.name;
+//     if (deptName == "Any") {
+//         let crews = await Crew.find({}).sort({ popularity: -1 }).limit(dataRow).exec();
+//         return res.status(200).json(crews);
+//     } else if (deptName != null) {
+//         let crews = await Crew.find({ department: deptName }).sort({ popularity: -1 }).limit(dataRow).exec();
+//         Crew.distinct('department').then(deptList => {
+//             console.log(deptList)
+//         });
 
-        return res.status(200).json(crews);
+//         return res.status(200).json(crews);
+//     }
+
+//     return res.status(404).json("Not Found");
+// });
+
+
+// get crew by department with page
+router.route("/dept/:name?/:page?").get(async (req, res) => {
+    const deptName = req.params.name || "Any";
+    const page = req.params.page || 1;
+    let crews = {};
+    let totalCrews, totalPages = 0;
+    try {
+        if (deptName === "Any"){
+            crews = await Crew.find({}).sort({popularity: -1}).skip((page - 1) * dataRow).limit(dataRow).exec();
+            totalCrews = await Crew.find({}).count();
+        } else {
+            crews = await Crew.find({ department: deptName}).sort({popularity: -1}).skip((page - 1) * dataRow).limit(dataRow).exec();
+            totalCrews = await Crew.find({ department: deptName }).count();
+        }
+        totalPages = Math.ceil(totalCrews / dataRow);
+        res.status(200).json({crews, totalPages});
     }
-
-    return res.status(404).json("Not Found");
+    catch {
+        (err) => res.status(400).json("Error: " + err);
+    }
 });
 
-
-
+// get crew by movie
+router.route("/movie/:id/:page?").get(async (req, res) => {
+    const id = req.params.id;
+    const page = req.params.page || 1;
+    let crews = {};
+    let totalCrews, totalPages = 0;
+    try {
+        crews = await Crew.find({movies: Number(id)}).sort({popularity: -1}).skip((page - 1) * dataRow).limit(dataRow).exec();
+        console.log(id);
+        console.log(crews);
+        totalCrews = await Crew.find({movies: Number(id)}).count();
+        totalPages = Math.ceil(totalCrews / dataRow);
+        res.status(200).json({crews, totalPages});
+    }
+    catch {
+        (err) => res.status(400).json("Error: " + err);
+    }
+});
 
 export default router;

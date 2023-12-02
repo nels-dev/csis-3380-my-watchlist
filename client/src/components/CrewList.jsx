@@ -5,39 +5,43 @@ import { useState, useEffect } from 'react';
 import { fetchDeptCrew } from "../services/crew.services"
 import logo from "../assets/logo.png"
 import Rating from '@mui/material/Rating';
-
+import { useNavigate } from 'react-router-dom';
 
 
 const CrewList = (props) => {
 
-    const [data, setData] = useState([]);
+    //const [data, setData] = useState([]);
     const imgURL = "https://image.tmdb.org/t/p/w200/";
+    const navigate = useNavigate();
+    const handleClick = (id) => {
+        console.log(id);
+        navigate(`/movies/crew/${id}`);
+    }
 
 
+    // useEffect(() => {
 
-    useEffect(() => {
+    //     // "Ryan Reynolds",
+    //     // crew(10859).then(({ data }) => {
+    //     //     console.log(data)
+    //     //     setState(data)
+    //     // });
 
-        // "Ryan Reynolds",
-        // crew(10859).then(({ data }) => {
-        //     console.log(data)
-        //     setState(data)
-        // });
+    //     fetchDeptCrew(props.dept).then(({ data }) => {
+    //         console.log(data)
+    //         setData(data)
+    //     });
 
-        fetchDeptCrew(props.dept).then(({ data }) => {
-            console.log(data)
-            setData(data)
-        });
-
-    }, [])
+    // }, [])
 
     return (<Grid container spacing={2}>
 
 
-        {data.map(each => (
-            <Grid item md={4}>
+        {props.data.map(each => (
+            <Grid item md={4} key={each.id} onClick={() => handleClick(each.id)}> 
                 <Card variant='outlined'>
 
-                    <CardActionArea key={each.id}>
+                    <CardActionArea>
                         <Grid container>
                             <Grid item xs={4}>
                                 <CardMedia

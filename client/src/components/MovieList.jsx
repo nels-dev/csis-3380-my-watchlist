@@ -5,11 +5,16 @@ import { Typography, CardActionArea, CardContent, CardMedia, Card } from "@mui/m
 //import { fetchMoviesByGenre, fetchMoviesAll } from "../services/movie.service"
 import logo from "../assets/logo.png"
 import Rating from '@mui/material/Rating';
-
+import { useNavigate } from 'react-router-dom';
 
 const MovieList = (props) => {
     
     const imgURL = "https://image.tmdb.org/t/p/w200/";
+    const navigate = useNavigate();
+    const handleClick = (id) => {
+        console.log(id);
+        navigate(`/crews/movie/${id}`);
+    }
 
     // const [movies, setMovies] = useState([]);
 
@@ -31,10 +36,10 @@ const MovieList = (props) => {
 
 
         {props.list.map(each => (
-            <Grid item md={4}>
+            <Grid item md={4} key={each.id} onClick={()=>handleClick(each.id)}>
                 <Card variant='outlined'>
 
-                    <CardActionArea key={each.id}>
+                    <CardActionArea>
                         <Grid container>
                             <Grid item xs={4}>
                                 <CardMedia

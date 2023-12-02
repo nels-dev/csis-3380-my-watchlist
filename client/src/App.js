@@ -6,6 +6,7 @@ import AuthProvider from "./context/auth.provider";
 import Search from "./components/Search";
 import Footer from "./components/Footer";
 import CrewList from "./components/CrewList";
+import Crews from "./components/Crews";
 import Filter from "./components/Filter";
 import Grid from "@mui/material/Grid";
 import { useEffect, useState } from "react";
@@ -30,36 +31,13 @@ function App() {
         <Header />
         <Search />
         <Routes>
+          <Route path="/movies/crew/:id" element={<Movies />} />
           <Route path="/movies/:genre" element={<Movies />} />
           <Route path="/movies" element={<Movies />} />
-          <Route
-            path="/*"
-            element={
-              <Grid container spacing={3}>
-                {/* Filter Bar on the left */}
-                <Grid item md={2}>
-                  <strong>Department: </strong>
-                  <Filter name="Any Department" dept="" />
-
-                  {deptList.map((deptName, id) => (
-                    <Filter name={deptName} dept={deptName} key={id} />
-                  ))}
-                </Grid>
-                {/* Crews display */}
-                <Grid item md={10}>
-                  <Routes>
-                    <Route path="/" element={<CrewList dept="Any" />} />
-                    {deptList.map((deptName, id) => (
-                      <Route
-                        path={`/${deptName}`}
-                        element={<CrewList dept={deptName} />}
-                      />
-                    ))}
-                  </Routes>
-                </Grid>
-              </Grid>
-            }
-          />
+          <Route path="/crews/movie/:id" element={<Crews />} />
+          <Route path="/crews/:department" element={<Crews />} />
+          <Route path="/crews" element={<Crews />} />
+          <Route path="/" element={<Crews />} />
         </Routes>
         <Footer />
       </Container>
