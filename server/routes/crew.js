@@ -34,7 +34,7 @@ router.get("/id/:id", async (req, res) => {
 // list all depts
 router.get("/depts", async (req, res) => {
 
-    Crew.distinct('department').then(deptList => {
+    Crew.distinct('known_for_department').then(deptList => {
         return res.status(200).json(deptList);
     });
 
@@ -72,8 +72,8 @@ router.route("/dept/:name?/:page?").get(async (req, res) => {
             crews = await Crew.find({}).sort({popularity: -1}).skip((page - 1) * dataRow).limit(dataRow).exec();
             totalCrews = await Crew.find({}).count();
         } else {
-            crews = await Crew.find({ department: deptName}).sort({popularity: -1}).skip((page - 1) * dataRow).limit(dataRow).exec();
-            totalCrews = await Crew.find({ department: deptName }).count();
+            crews = await Crew.find({ known_for_department: deptName}).sort({popularity: -1}).skip((page - 1) * dataRow).limit(dataRow).exec();
+            totalCrews = await Crew.find({ known_for_department: deptName }).count();
         }
         totalPages = Math.ceil(totalCrews / dataRow);
         res.status(200).json({crews, totalPages});
