@@ -63,7 +63,7 @@ const Crews = (props) => {
         
         {deptList.map((dept) => (
           <ListItem key={dept} disablePadding>
-            <ListItemButton component={Link} to={`/crews/${dept}`}>
+            <ListItemButton component={Link} to={`/crews/department/${dept}`}>
               <ListItemText primary={dept} />
             </ListItemButton>
           </ListItem>

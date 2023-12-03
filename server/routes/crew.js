@@ -25,7 +25,7 @@ router.get("/", async (req, res) => {
 
 router.get("/id/:id", async (req, res) => {
     const crewId = parseInt(req.params.id, 10);
-    const crew = await Crew.find({ id: crewId }).exec();
+    const crew = await Crew.findOne({ id: crewId }).exec();
     // console.log(crew);
     return res.status(200).json(crew);
 
@@ -91,8 +91,6 @@ router.route("/movie/:id/:page?").get(async (req, res) => {
     let totalCrews, totalPages = 0;
     try {
         crews = await Crew.find({movies: Number(id)}).sort({popularity: -1}).skip((page - 1) * dataRow).limit(dataRow).exec();
-        console.log(id);
-        console.log(crews);
         totalCrews = await Crew.find({movies: Number(id)}).count();
         totalPages = Math.ceil(totalCrews / dataRow);
         res.status(200).json({crews, totalPages});

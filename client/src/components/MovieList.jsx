@@ -7,35 +7,19 @@ import logo from "../assets/logo.png"
 import Rating from '@mui/material/Rating';
 import { useNavigate } from 'react-router-dom';
 
-const MovieList = (props) => {
+const MovieList = ({list}) => {
     
     const imgURL = "https://image.tmdb.org/t/p/w200/";
     const navigate = useNavigate();
     const handleClick = (id) => {
-        console.log(id);
         navigate(`/crews/movie/${id}`);
     }
 
-    // const [movies, setMovies] = useState([]);
-
-    // useEffect(() => {
-    //     if (!props.id || props.id === "All"){
-    //         fetchMoviesAll().then(({ data }) => {
-    //             console.log("No ID" + props.id);
-    //             setMovies(data);
-    //         })           
-    //     } else {
-    //     fetchMoviesByGenre(props.id).then(({ data }) => {
-    //         console.log("With ID" + props.id);
-    //         setMovies(data);
-    //     })};
-
-    // }, [])
 
     return (<Grid container spacing={2}>
 
 
-        {props.list.map(each => (
+        {list?.map(each => (
             <Grid item md={4} key={each.id} onClick={()=>handleClick(each.id)}>
                 <Card variant='outlined'>
 

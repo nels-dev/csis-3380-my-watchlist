@@ -57,7 +57,7 @@ const Movies = () => {
     <Grid container spacing={3}>
       {/* Filter Bar on the left */}
       <Grid item md={2}>
-        <strong>Genre: </strong>
+        <strong>Genre </strong>
         <ListItem key={"All"} disablePadding>
           <ListItemButton component="a" href={"/movies/All"}>
             <ListItemText primary={"All"} />
