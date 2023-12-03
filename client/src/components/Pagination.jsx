@@ -1,36 +1,16 @@
 import React from "react";
-
+import { Pagination as MuiPagination, Grid } from "@mui/material";
 const Pagination = ({ totalPages, currentPage, changePage }) => {
-  const maxVisiblePages = 10;
-
-  const startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-  const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
-
-  const pages = Array.from(
-    { length: endPage - startPage + 1 },
-    (_, index) => startPage + index
-  );
 
   return (
-    <div>
-      <button onClick={() => changePage(Math.max(1, currentPage - 1))}>
-        Previous
-      </button>
+    <Grid container sx={{mt:3}}>
+      <Grid item sm></Grid>
+      <Grid item >
+        <MuiPagination count={totalPages} defaultPage={currentPage} onChange={(event, page)=> changePage(page)}/>
+      </Grid>
+      <Grid item sm></Grid>
+    </Grid>
 
-      {pages.map((page) => (
-        <button
-          key={page}
-          onClick={() => changePage(page)}
-          className={currentPage === page ? "active" : ""}
-        >
-          {page}
-        </button>
-      ))}
-
-      <button onClick={() => changePage(Math.min(totalPages, currentPage + 1))}>
-        Next
-      </button>
-    </div>
   );
 };
 

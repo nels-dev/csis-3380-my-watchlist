@@ -1,12 +1,9 @@
 
 import Grid from '@mui/material/Grid'
-import { Chip, Typography, CardActionArea, CardContent, CardMedia, Card } from "@mui/material"
-import { useState, useEffect } from 'react';
-import { fetchDeptCrew } from "../services/crew.services"
-import logo from "../assets/logo.png"
+import { Typography, CardActionArea, CardContent, CardMedia, Card, Stack } from "@mui/material"
 import Rating from '@mui/material/Rating';
 import { useNavigate } from 'react-router-dom';
-
+import PersonIcon from '@mui/icons-material/Person';
 
 const CrewList = (props) => {
 
@@ -14,7 +11,6 @@ const CrewList = (props) => {
     const imgURL = "https://image.tmdb.org/t/p/w200/";
     const navigate = useNavigate();
     const handleClick = (id) => {
-        console.log(id);
         navigate(`/movies/crew/${id}`);
     }
 
@@ -34,37 +30,42 @@ const CrewList = (props) => {
 
     // }, [])
 
-    return (<Grid container spacing={2}>
+    return (<Grid container spacing={2} alignContent="stretch">
 
 
         {props.data.map(each => (
             <Grid item md={4} key={each.id} onClick={() => handleClick(each.id)}> 
-                <Card variant='outlined'>
+                <Card variant='outlined' sx={{height: '100%'}}>
 
-                    <CardActionArea>
-                        <Grid container>
+                    <CardActionArea sx={{height: '100%'}}>
+                        <Grid container sx={{height: '100%'}} alignContent="stretch">
                             <Grid item xs={4}>
-                                <CardMedia
+                                {each.profile_path && (
+                                    <CardMedia
                                     component="img"
-
-                                    image={each.profile_path ? imgURL + each.profile_path : logo}
+                                    image={imgURL + each.profile_path}
                                     alt={each.name}
                                 />
+                                )}
+                                {!each.profile_path && (
+                                    <CardMedia sx={{height: '100%'}}>
+                                        <Stack sx={{height: '100%'}} direction='column' justifyContent='center'>
+                                            <Stack direction='row' justifyContent='center'>
+                                                <PersonIcon sx={{fontSize: 80}}/>
+                                            </Stack>
+                                        </Stack>
+                                    </CardMedia>
+                                )}
+                                
                             </Grid>
                             <Grid item xs={8}>
                                 <CardContent>
-                                    <Typography component="div" variant="h5" fontWeight={700} textTransform='uppercase' >
+                                    <Typography component="div" variant="h6" fontWeight={700} textTransform='uppercase' >
                                         {each.name}
                                     </Typography>
                                     <Typography variant="subtitle1" color="text.secondary" component="div">
-                                        {each.department}
-                                    </Typography> <br />
-                                    <Typography variant="body1" color="text.secondary">
-                                        Job: {each.job}
-                                    </Typography>
-                                    <Typography variant="body1" color="text.secondary">
-                                        Known For: {each.known_for_department}
-                                    </Typography>
+                                        {each.known_for_department}
+                                    </Typography> <br />                                    
                                     <Typography variant="body1" color="text.secondary" style={{ display: 'flex', alignItems: 'center' }}>
                                         Popularity:
                                         <Rating name="half-rating-read" defaultValue={each.popularity / 30} precision={0.5} style={{ margin: '0 4px' }} readOnly />

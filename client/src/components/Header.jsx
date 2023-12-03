@@ -4,11 +4,14 @@ import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 import { useState } from "react"
 import Button from '@mui/material/Button'
-import { Divider, Box, Typography } from "@mui/material"
+import { Divider, Box, Typography, useMediaQuery, useTheme } from "@mui/material"
 import { login } from "../services/user.service"
 import { useContext } from "react"
 import { AuthContext } from "../context/auth.provider"
+
 const Header = () => {
+    const theme = useTheme();
+    const smUp = useMediaQuery(theme.breakpoints.up('md'))
     const authContext = useContext(AuthContext);
     const [loginForm, setLoginForm] = useState({ email: '', password: '' })
     const submit = () => {
@@ -79,7 +82,7 @@ const Header = () => {
         </Grid>
 
 
-        <Box sx={{ height: '35vh', width: '100%' }}>
+        <Box sx={{ height: '40vh', width: '100%' }}>
             <Grid
                 sx={{ height: '100%', backgroundImage: `url(${hero})`, backgroundSize: 'cover', backgroundPosition: '0% 70%', backgroundColor: 'rgba(0,0,0,.5)', backgroundBlendMode: 'darken' }}
                 alignItems='center'
@@ -88,8 +91,8 @@ const Header = () => {
                 direction="row"
             >
                 <Grid item md></Grid>
-                <Grid>
-                    <Box sx={{ p: 15, border: '10px solid white' }}>
+                <Grid item >
+                    <Box sx={{ p:15, border: smUp ? '10px solid white': '0' }}>
                         <Typography variant="h5" color='white' fontWeight={700} textTransform='uppercase'>
                             Meet our heros behind the scene
                         </Typography>

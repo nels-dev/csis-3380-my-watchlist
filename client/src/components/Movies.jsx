@@ -7,8 +7,10 @@ import MovieList from "./MovieList";
 import { ListItem, ListItemButton, ListItemText } from "@mui/material";
 import { fetchMoviesByGenre, fetchMoviesAll, fetchMoviesByCrew } from "../services/movie.service";
 import Paginator from "./Paginator";
+import Loader from "./Loader";
 
 const Movies = () => {
+  const [loading, setLoading] = useState(false)
   const [genreList, setGenreList] = useState([]);
   const [movies, setMovies] = useState([]);
   const { genre, id } = useParams();
@@ -25,28 +27,33 @@ const Movies = () => {
 
   // get the movies, all or by genre
   useEffect(() => {
+    setLoading(true)
     if (id) {
         fetchMoviesByCrew(id).then(({ data }) => {
             console.log("Crew id: " + id);
             setMovies(data);
             setTotalPages(Math.ceil(data.length / itemsLimit));
-          });
+          })
+          .finally(()=>setLoading(false));
     } else if (!genre || genre === "All") {
       fetchMoviesAll().then(({ data }) => {
         console.log("No genre " + genre);
         setMovies(data);
         setTotalPages(Math.ceil(data.length / itemsLimit));
-      });
+      })
+      .finally(()=>setLoading(false));
     } else {
       fetchMoviesByGenre(genre).then(({ data }) => {
         console.log("With genre " + genre);
         setMovies(data);
         setTotalPages(Math.ceil(data.length / itemsLimit));
-      });
+      })
+      .finally(()=>setLoading(false));
     }
   }, [genre, id]);
 
   return (
+    
     <Grid container spacing={3}>
       {/* Filter Bar on the left */}
       <Grid item md={2}>
@@ -67,15 +74,17 @@ const Movies = () => {
       </Grid>
       {/* Movies display */}
       <Grid item md={10}>
-        {/* <MovieList list={movies}/> */}
-        <Paginator
-          targetComponent={MovieList}
-          list={movies}
-          totalPages={totalPages}
-          itemsLimit={itemsLimit}
-        />
+        <Loader loading={loading}>
+          <Paginator
+            targetComponent={MovieList}
+            list={movies}
+            totalPages={totalPages}
+            itemsLimit={itemsLimit}
+          />
+        </Loader>
       </Grid>
     </Grid>
+    
   );
 };
 

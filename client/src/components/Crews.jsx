@@ -5,16 +5,18 @@ import { useEffect, useState } from "react";
 //import { Routes, Route } from "react-router-dom";
 import axios from "axios";
 import { ListItem, ListItemButton, ListItemText } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import Pagination from "./Pagination";
-
+import Loader from "./Loader";
 const Crews = (props) => {
+  const [loading, setLoading] = useState(false);
   const [deptList, setDeptList] = useState([]);
   const { department = "Any", id } = useParams();
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const changePage = (selectedPage) => {
+    console.log(`change page to ${selectedPage}`)
     setCurrentPage(selectedPage);
   };
 
@@ -26,6 +28,7 @@ const Crews = (props) => {
   }, []);
 
   useEffect(() => {
+    setLoading(true)
     if (id) {
         axios
         .get(`/api/crews/movie/${id}/${currentPage}`)
@@ -33,7 +36,8 @@ const Crews = (props) => {
           setData(res.data.crews);
           setTotalPages(res.data.totalPages);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err))
+        .finally(()=>setLoading(false));
     } else {
       axios
         .get(`/api/crews/dept/${department}/${currentPage}`)
@@ -41,24 +45,25 @@ const Crews = (props) => {
           setData(res.data.crews);
           setTotalPages(res.data.totalPages);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => console.log(err))
+        .finally(()=>setLoading(false));
     }
   }, [currentPage, department]);
 
   return (
     <Grid container spacing={3}>
       {/* Filter Bar on the left */}
-      <Grid item md={2}>
-        <strong>Department: </strong>
+      <Grid item md={3}>
+        <strong>Department</strong>
         <ListItem key={"Any"} disablePadding>
-          <ListItemButton component="a" href={"/crews/Any"}>
+          <ListItemButton component={Link} to={"/crews/Any"}>
             <ListItemText primary={"Any Department"} />
           </ListItemButton>
         </ListItem>
-
+        
         {deptList.map((dept) => (
           <ListItem key={dept} disablePadding>
-            <ListItemButton component="a" href={`/crews/${dept}`}>
+            <ListItemButton component={Link} to={`/crews/${dept}`}>
               <ListItemText primary={dept} />
             </ListItemButton>
           </ListItem>
@@ -66,22 +71,17 @@ const Crews = (props) => {
       </Grid>
 
       {/* Crews display */}
-      <Grid item md={10}>
+      <Grid item md={9}>
         {/* Content of current page */}
-        <CrewList dept={department} data={data} />
+        <Loader loading={loading} >
+         <CrewList dept={department} data={data} />
+        </Loader>
         {/* Pagination buttons */}
         <Pagination
           totalPages={totalPages}
           currentPage={currentPage}
           changePage={changePage}
         />
-        {/* <div>
-          {Array.from({ length: totalPages }, (_, index) => (
-            <button key={index} onClick={() => changePage(index + 1)}>
-              {index + 1}
-            </button>
-          ))}
-        </div> */}
       </Grid>
     </Grid>
   );
