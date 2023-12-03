@@ -10,6 +10,7 @@ import { Routes, Route } from "react-router-dom";
 import Movies from "./components/Movies";
 import NavBar from "./components/NavBar";
 import CrewDetail from "./components/CrewDetail";
+import MovieDetail from "./components/MovieDetail";
 
 axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL;
 
@@ -30,7 +31,8 @@ function App() {
         <NavBar />
         <Routes>
           <Route path="/movies/crew/:id" element={<Movies />} />
-          <Route path="/movies/:genre" element={<Movies />} />
+          <Route path="/movies/genre/:genre" element={<Movies />} />
+          <Route path="/movies/:id" element={<MovieDetail />} />
           <Route path="/movies" element={<Movies />} />
           <Route path="/crews/movie/:id" element={<Crews />} />
           <Route path="/crews/department/:department" element={<Crews />} />

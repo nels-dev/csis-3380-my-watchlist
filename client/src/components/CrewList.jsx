@@ -5,19 +5,19 @@ import Rating from '@mui/material/Rating';
 import { useNavigate } from 'react-router-dom';
 import PersonIcon from '@mui/icons-material/Person';
 
-const CrewList = (props) => {
+const CrewList = ({data, disableLink=false}) => {
 
     const imgURL = "https://image.tmdb.org/t/p/w200/";
     const navigate = useNavigate();
     const handleClick = (id) => {
-        navigate(`/crews/${id}`);
+        if(!disableLink) navigate(`/crews/${id}`);
     }
     const theme = useTheme();
 
     return (<Grid container spacing={2} alignContent="stretch">
 
 
-        {props.data.map(each => (
+        {data && data.map(each => (
             <Grid item md={4} key={each.id} onClick={() => handleClick(each.id)}> 
                 <Card variant='outlined' sx={{height: '100%'}}>
 
@@ -44,15 +44,15 @@ const CrewList = (props) => {
                             </Grid>
                             <Grid item xs={8}>
                                 <CardContent>
-                                    <Typography component="div" variant="h6" fontWeight={700} textTransform='uppercase' >
+                                    <Typography component="div" variant="subtitle1" fontWeight={700} textTransform='uppercase' >
                                         {each.name}
                                     </Typography>
-                                    <Typography variant="subtitle1" color="text.secondary" component="div">
+                                    <Typography variant="caption" color="text.secondary" component="div">
                                         {each.known_for_department}
                                     </Typography> <br />                                    
                                     <Typography variant="body1" color="text.secondary" style={{ display: 'flex', alignItems: 'center' }}>
                                         Popularity:
-                                        <Rating name="half-rating-read" defaultValue={each.popularity / 30} precision={0.5} style={{ margin: '0 4px' }} readOnly size='small'/>                                        
+                                        <Rating name="half-rating-read" defaultValue={Math.log(each.popularity)} precision={0.5} style={{ margin: '0 4px' }} readOnly size='small'/>                                        
                                     </Typography>
 
                                 </CardContent>

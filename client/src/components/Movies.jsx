@@ -2,7 +2,7 @@ import React from "react";
 import Grid from "@mui/material/Grid";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import MovieList from "./MovieList";
 import { ListItem, ListItemButton, ListItemText } from "@mui/material";
 import { fetchMoviesByGenre, fetchMoviesAll, fetchMoviesByCrew } from "../services/movie.service";
@@ -38,6 +38,7 @@ const Movies = () => {
     } else if (!genre || genre === "All") {
       fetchMoviesAll().then(({ data }) => {
         console.log("No genre " + genre);
+        console.log(data)
         setMovies(data);
         setTotalPages(Math.ceil(data.length / itemsLimit));
       })
@@ -59,14 +60,14 @@ const Movies = () => {
       <Grid item md={2}>
         <strong>Genre </strong>
         <ListItem key={"All"} disablePadding>
-          <ListItemButton component="a" href={"/movies/All"}>
+          <ListItemButton component={Link} to={"/movies/genre/All"}>
             <ListItemText primary={"All"} />
           </ListItemButton>
         </ListItem>
 
         {genreList.map((genre) => (
           <ListItem key={genre} disablePadding>
-            <ListItemButton component="a" href={`/movies/${genre}`}>
+            <ListItemButton component={Link} to={`/movies/genre/${genre}`}>
               <ListItemText primary={genre} />
             </ListItemButton>
           </ListItem>

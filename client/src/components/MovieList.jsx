@@ -12,7 +12,7 @@ const MovieList = ({list}) => {
     const imgURL = "https://image.tmdb.org/t/p/w200/";
     const navigate = useNavigate();
     const handleClick = (id) => {
-        navigate(`/crews/movie/${id}`);
+        navigate(`/movies/${id}`);
     }
 
 
@@ -35,7 +35,7 @@ const MovieList = ({list}) => {
                             </Grid>
                             <Grid item xs={8}>
                                 <CardContent>
-                                    <Typography component="div" variant="subtitle1" fontWeight={700} textTransform='uppercase' >
+                                    <Typography component="div" variant="subtitle2" fontWeight={700} textTransform='uppercase' >
                                         {each.title}
                                     </Typography>
                                     <Typography variant="caption" color="text.secondary" component="div">
@@ -49,8 +49,7 @@ const MovieList = ({list}) => {
                                     </Typography>
                                     <Typography variant="body2" color="text.secondary" style={{ display: 'flex', alignItems: 'center' }}>
                                         Vote Average:
-                                        <Rating name="half-rating-read" defaultValue={each.vote_average / 2} precision={0.5} style={{ margin: '0 4px' }} readOnly />
-                                        {/* {Math.floor(each.popularity)} / 150 */}
+                                        <Rating name="half-rating-read" defaultValue={each.vote_average / 2} precision={0.5} style={{ margin: '0 4px' }} readOnly size='small' />
                                     </Typography>
 
                                 </CardContent>

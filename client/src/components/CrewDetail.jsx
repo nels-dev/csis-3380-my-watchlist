@@ -22,7 +22,7 @@ const CrewDetail = () => {
     }, [id])
     return (<Grid container spacing={5}>
         <Grid item xs={4} md={2}>
-             <img width='100%' src={imgURL + crew.profile_path}/>
+             {crew.profile_path && <img width='100%' src={imgURL + crew.profile_path}/>}
         </Grid>
         <Grid item xs>
             <Typography variant="h4" gutterBottom>{crew.name}</Typography>

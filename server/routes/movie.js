@@ -20,10 +20,19 @@ router.route("/genres").get((req, res) => {
   });
 
 // get movie by genre
-router.route("/:genre").get((req, res) => {
+router.route("/genres/:genre").get((req, res) => {
     Movie.find({"genres.name": req.params.genre})
     .sort({vote_average: -1, release_date: -1})
     .then((movies) => res.json(movies))
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
+router.route("/:id").get((req, res) => {    
+  
+    Movie.findOne({id: parseInt(req.params.id)})
+    .then((movie) => {        
+        res.json(movie)
+    })
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
