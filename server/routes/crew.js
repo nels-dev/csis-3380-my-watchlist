@@ -41,6 +41,8 @@ router.get("/depts", async (req, res) => {
 
 });
 
+router.put("/favourite")
+
 // list dept by name
 // router.get("/dept/:name", async (req, res) => {
 

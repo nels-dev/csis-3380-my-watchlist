@@ -12,7 +12,7 @@ router.post("/login", async(req, res)=>{
         return res.status(400).json({ success: false, message: 'Please check your credentials'});
     }
     return res.status(200).json({
-        token: jwt.sign({"sub":email}, process.env.JWT_SECRET, {expiresIn: '1d'})
+        token: jwt.sign({"sub":email, "id":user._id}, process.env.JWT_SECRET, {expiresIn: '1d'})
     })
 })
 

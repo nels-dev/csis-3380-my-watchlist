@@ -11,19 +11,12 @@ import Movies from "./components/Movies";
 import NavBar from "./components/NavBar";
 import CrewDetail from "./components/CrewDetail";
 import MovieDetail from "./components/MovieDetail";
+import FavouriteCrews from "./components/FavouriteCrews";
+import WatchList from "./components/WatchList";
 
 axios.defaults.baseURL = process.env.REACT_APP_BACKEND_URL;
 
 function App() {
-  const [deptList, setDeptList] = useState([]);
-
-  useEffect(() => {
-    axios
-      .get("/api/crews/depts")
-      .then((res) => setDeptList(res.data))
-      .catch((err) => console.log(err));
-  }, []);
-
   return (
     <AuthProvider>
       <Container maxWidth="xl">
@@ -38,6 +31,8 @@ function App() {
           <Route path="/crews/department/:department" element={<Crews />} />
           <Route path="/crews/:id" element={<CrewDetail/>}/>
           <Route path="/crews" element={<Crews />} />
+          <Route path="/favourite" element={<FavouriteCrews/>}/>
+          <Route path="/watch-list" element={<WatchList/>}/>
           <Route path="/" element={<Crews />} />
         </Routes>
         <Footer />

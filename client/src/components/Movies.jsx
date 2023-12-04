@@ -29,23 +29,19 @@ const Movies = () => {
   useEffect(() => {
     setLoading(true)
     if (id) {
-        fetchMoviesByCrew(id).then(({ data }) => {
-            console.log("Crew id: " + id);
+        fetchMoviesByCrew(id).then(({ data }) => {            
             setMovies(data);
             setTotalPages(Math.ceil(data.length / itemsLimit));
           })
           .finally(()=>setLoading(false));
     } else if (!genre || genre === "All") {
-      fetchMoviesAll().then(({ data }) => {
-        console.log("No genre " + genre);
-        console.log(data)
+      fetchMoviesAll().then(({ data }) => {        
         setMovies(data);
         setTotalPages(Math.ceil(data.length / itemsLimit));
       })
       .finally(()=>setLoading(false));
     } else {
-      fetchMoviesByGenre(genre).then(({ data }) => {
-        console.log("With genre " + genre);
+      fetchMoviesByGenre(genre).then(({ data }) => {        
         setMovies(data);
         setTotalPages(Math.ceil(data.length / itemsLimit));
       })
