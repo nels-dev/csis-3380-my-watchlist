@@ -48,7 +48,7 @@ const Crews = (props) => {
         .catch((err) => console.log(err))
         .finally(()=>setLoading(false));
     }
-  }, [currentPage, department]);
+  }, [currentPage, department, id]);
 
   return (
     <Grid container spacing={3}>
@@ -56,7 +56,7 @@ const Crews = (props) => {
       <Grid item md={3}>
         <strong>Department</strong>
         <ListItem key={"Any"} disablePadding>
-          <ListItemButton component={Link} to={"/crews/Any"}>
+          <ListItemButton component={Link} to={"/crews/department/Any"}>
             <ListItemText primary={"Any Department"} />
           </ListItemButton>
         </ListItem>

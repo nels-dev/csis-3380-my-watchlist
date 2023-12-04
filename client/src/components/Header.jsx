@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 import { useState } from "react"
 import Button from '@mui/material/Button'
-import { Divider, Box, Typography, useMediaQuery, useTheme } from "@mui/material"
+import { Box, Tooltip, Typography, useMediaQuery, useTheme } from "@mui/material"
 import { login } from "../services/user.service"
 import { useContext } from "react"
 import { AuthContext } from "../context/auth.provider"
@@ -46,6 +46,7 @@ const Header = () => {
             {authContext.authenticated || (
                 <>
                     <Grid item >
+                        <Tooltip title="Demo Account: test@test; Password: 123">
                         <TextField
                             size="small"
                             id="email"
@@ -53,6 +54,7 @@ const Header = () => {
                             value={loginForm.email}
                             onChange={(event) => setLoginForm({ ...loginForm, email: event.target.value })}
                         />
+                        </Tooltip>
                     </Grid>
                     <Grid item >
                         <TextField
