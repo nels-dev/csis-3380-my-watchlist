@@ -6,18 +6,18 @@ const NavBar = () => {
     const authContext = useContext(AuthContext);
     return (<Grid container sx={{mt:1, mb:3}} spacing={3}>
         <Grid item>
-            <Button size='large' component={NavLink} to="/crews">Crew</Button>
+            <Button size='large' component={NavLink} to="/crews"><strong>Crew</strong></Button>
         </Grid>
         <Grid item>
-            <Button size='large' component={NavLink} to="/movies">Movies</Button>
+            <Button size='large' component={NavLink} to="/movies"><strong>Movies</strong></Button>
         </Grid>
         {authContext.authenticated && (
             <>
             <Grid item>
-                <Button size='large' component={NavLink} to="/favourite">My Favourite</Button>
+                <Button size='large' component={NavLink} to="/favourite"><strong>My Favourite</strong></Button>
             </Grid>
             <Grid item>
-                <Button size='large' component={NavLink} to="/watch-list">Watch List</Button>
+                <Button size='large' component={NavLink} to="/watch-list"><strong>Watch List</strong></Button>
             </Grid>
             </>
         )}
