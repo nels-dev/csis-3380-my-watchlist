@@ -6,6 +6,7 @@ const router = express.Router();
 // get all movies
 router.route("/all").get((req, res) => {
     Movie.find({})
+    .select('-credits')
     .sort({vote_average: -1, release_date: -1})
     .then((movies) => res.json(movies))
     .catch((err) => res.status(400).json("Error: " + err));
@@ -13,7 +14,7 @@ router.route("/all").get((req, res) => {
 
 // get unique list of genres in ascending order
 router.route("/genres").get((req, res) => {
-    Movie.distinct("genres.name")
+    Movie.distinct("genres.name")      
       .sort()
       .then((genres) => res.json(genres))
       .catch((err) => res.status(400).json("Error: " + err));
@@ -22,6 +23,7 @@ router.route("/genres").get((req, res) => {
 // get movie by genre
 router.route("/genres/:genre").get((req, res) => {
     Movie.find({"genres.name": req.params.genre})
+    .select('-credits')
     .sort({vote_average: -1, release_date: -1})
     .then((movies) => res.json(movies))
     .catch((err) => res.status(400).json("Error: " + err));

@@ -35,7 +35,8 @@ const Movies = () => {
           })
           .finally(()=>setLoading(false));
     } else if (!genre || genre === "All") {
-      fetchMoviesAll().then(({ data }) => {        
+      fetchMoviesAll().then(({ data }) => {    
+        console.log(data)    
         setMovies(data);
         setTotalPages(Math.ceil(data.length / itemsLimit));
       })
