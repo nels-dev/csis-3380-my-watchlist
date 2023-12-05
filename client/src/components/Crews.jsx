@@ -3,6 +3,8 @@ import CrewList from "./CrewList";
 import Grid from "@mui/material/Grid";
 import { useEffect, useState } from "react";
 //import { Routes, Route } from "react-router-dom";
+import { TextField, Button } from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
 import axios from "axios";
 import { ListItem, ListItemButton, ListItemText } from "@mui/material";
 import { useParams, Link } from "react-router-dom";
@@ -15,8 +17,11 @@ const Crews = (props) => {
   const [data, setData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [crewName, setCrewName] = useState('');
+
   const changePage = (selectedPage) => {
-    console.log(`change page to ${selectedPage}`)
+    console.log(`change page to ${selectedPage}`);
     setCurrentPage(selectedPage);
   };
 
@@ -28,27 +33,37 @@ const Crews = (props) => {
   }, []);
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     if (id) {
-        axios
-        .get(`/api/crews/movie/${id}/${currentPage}`)
+      axios
+        .get(`/api/crews/movie/${id}/${currentPage}?crewName=${crewName}`)
         .then((res) => {
           setData(res.data.crews);
           setTotalPages(res.data.totalPages);
         })
         .catch((err) => console.log(err))
-        .finally(()=>setLoading(false));
+        .finally(() => setLoading(false));
     } else {
       axios
-        .get(`/api/crews/dept/${department}/${currentPage}`)
+        .get(`/api/crews/dept/${department}/${currentPage}?crewName=${crewName}`)
         .then((res) => {
           setData(res.data.crews);
           setTotalPages(res.data.totalPages);
         })
         .catch((err) => console.log(err))
-        .finally(()=>setLoading(false));
+        .finally(() => setLoading(false));
     }
-  }, [currentPage, department, id]);
+  }, [currentPage, department, id, crewName]);
+
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    setCrewName(searchQuery);
+  };
 
   return (
     <Grid container spacing={3}>
@@ -60,7 +75,7 @@ const Crews = (props) => {
             <ListItemText primary={"Any Department"} />
           </ListItemButton>
         </ListItem>
-        
+
         {deptList.map((dept) => (
           <ListItem key={dept} disablePadding>
             <ListItemButton component={Link} to={`/crews/department/${dept}`}>
@@ -72,9 +87,29 @@ const Crews = (props) => {
 
       {/* Crews display */}
       <Grid item md={9}>
+        {/* Search Bar at the top*/}
+        <form onSubmit={handleSearch}>
+          <Grid container spacing={2} alignItems="center">
+            <Grid item xs={8}>
+              <TextField label="Crew Name" variant="outlined" fullWidth value={searchQuery} onChange={handleSearchChange} />
+            </Grid>
+            <Grid item xs={4}>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                onClick={handleSearch}
+                startIcon={<SearchIcon />}
+              >
+                Search
+              </Button>
+            </Grid>
+          </Grid>
+          <br />
+        </form>
         {/* Content of current page */}
-        <Loader loading={loading} >
-         <CrewList dept={department} data={data} />
+        <Loader loading={loading}>
+          <CrewList dept={department} data={data} />
         </Loader>
         {/* Pagination buttons */}
         <Pagination
